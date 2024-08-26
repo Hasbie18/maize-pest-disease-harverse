@@ -1,64 +1,42 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const Sidebar = () => {
+const Sidebar = ({ categories, selectedCategory, onSelectCategory }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <aside className="w-full lg:w-1/4 bg-gray-100 p-4">
-      <h2 className="font-bold text-lg mb-4">Filter</h2>
-      {/* Kategori */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Kategori</h3>
-        <select className="w-full p-2 border rounded-md">
-          <option>Wanita</option>
-          <option>Pria</option>
-        </select>
+    <div className="lg:sticky lg:top-20 h-fit mr-7">
+      {/* Mobile Toggle Button */}
+      <div className="lg:hidden flex justify-between items-center mb-4">
+        <h2 className="font-bold text-lg">Categories</h2>
+        <button
+          className="p-2 rounded bg-gray-300"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? "Close" : "Open"}
+        </button>
       </div>
-      {/* Harga */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Harga Barang</h3>
-        <input type="range" min="50" max="140" className="w-full"/>
-        <div className="flex justify-between text-sm mt-2">
-          <span>50 BYN</span>
-          <span>140 BYN</span>
-        </div>
+
+      {/* Sidebar Content */}
+      <div
+        className={`lg:block ${isOpen ? "block" : "hidden"} lg:space-y-2`}
+      >
+        <ul className="space-y-2">
+          {categories.map((category) => (
+            <li
+              key={category}
+              className={`cursor-pointer capitalize p-2 rounded-lg ${
+                selectedCategory === category
+                  ? "bg-gray-200 text-gray-800"
+                  : "hover:bg-gray-100"
+              }`}
+              onClick={() => onSelectCategory(category)}
+            >
+              {category}
+            </li>
+          ))}
+        </ul>
       </div>
-      {/* Ukuran */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Ukuran</h3>
-        <div className="grid grid-cols-3 gap-2">
-          <button className="border p-2">42</button>
-          <button className="border p-2">44</button>
-          <button className="border p-2">46</button>
-          <button className="border p-2">48</button>
-          <button className="border p-2">50</button>
-        </div>
-      </div>
-      {/* Material */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Material</h3>
-        <select className="w-full p-2 border rounded-md">
-          <option>Kapas</option>
-          <option>Wol</option>
-        </select>
-      </div>
-      {/* Warna */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Warna</h3>
-        <div className="flex flex-wrap gap-2">
-          <button className="w-6 h-6 rounded-full bg-black border"></button>
-          <button className="w-6 h-6 rounded-full bg-gray-500 border"></button>
-          <button className="w-6 h-6 rounded-full bg-white border"></button>
-        </div>
-      </div>
-      {/* Print */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Motif</h3>
-        <div className="flex flex-wrap gap-2">
-          <button className="border p-2">Geometri</button>
-          <button className="border p-2">Bunga</button>
-        </div>
-      </div>
-      <button className="w-full bg-blue-500 text-white p-2 rounded-md">Terapkan</button>
-    </aside>
+    </div>
   );
 };
 
